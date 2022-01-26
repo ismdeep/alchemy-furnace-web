@@ -1,5 +1,6 @@
 module.exports = {
     devServer: {
+        port: 8000,
         proxy: {
             '/api': {     //这里最好有一个 /
                 target: 'http://127.0.0.1:8080/api',  // 后台接口域名

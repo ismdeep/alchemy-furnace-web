@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import Home from "@/Home";
 import Task from "@/Task";
-
+import './index.css';
 
 const routes = [
     {

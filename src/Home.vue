@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="md:flex">
     <Tasks />
   </div>
 </template>
