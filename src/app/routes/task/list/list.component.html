@@ -1,0 +1,10 @@
+<page-header [title]="'任务列表'" [action]='phActionTpl'>
+  <ng-template #phActionTpl>
+    <button (click)='create()' nz-button nzType='primary'>创建任务</button>
+  </ng-template>
+</page-header>
+
+<nz-card>
+  <st #st [data]='tasks' [columns]='columns'>
+  </st>
+</nz-card>

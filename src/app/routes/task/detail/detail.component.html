@@ -1,0 +1,8 @@
+<br>
+<nz-card *ngIf="task != null" [nzLoading]="task == null">
+  任务名称： {{task.name}}
+</nz-card>
+
+<nz-card>
+  <st #st [data]="run_list" [columns]="columns"></st>
+</nz-card>
