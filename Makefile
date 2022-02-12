@@ -26,7 +26,9 @@ load-dev-config:
 # -------- docker stages >>>> --------
 .PHONY: docker
 docker:
-	bash build-docker.bash
+	docker buildx build \
+		--platform linux/amd64 \
+ 		-t ismdeep/alchemy-furnace-web:latest .
 
 .PHONY: docker-release
 docker-release:
