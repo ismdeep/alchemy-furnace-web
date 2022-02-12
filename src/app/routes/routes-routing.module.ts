@@ -18,10 +18,6 @@ const routes: Routes = [
       },
       // 业务子模块
       {path: 'tasks', loadChildren: () => import('./task/task.module').then((m) => m.TaskModule)},
-      // 资源模块
-      {path: 'sources', loadChildren: () => import('./resources/resources.module').then((m) => m.ResourcesModule)},
-      // 操作记录
-      {path: 'operation', loadChildren: () => import('./operation/operation.module').then((m) => m.OperationModule)},
     ],
   },
   // 全屏布局

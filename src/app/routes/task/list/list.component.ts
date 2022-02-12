@@ -1,11 +1,12 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {STColumn, STComponent, STPage} from '@delon/abc/st';
 import {ModalHelper, _HttpClient} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
 import {TaskEditComponent} from './edit/edit.component';
+import format from 'date-fns/format';
 
 @Component({
   selector: 'tasks',
@@ -28,6 +29,7 @@ export class TaskListComponent implements OnInit {
   columns: STColumn[] = [
     {title: '任务名称', index: 'name'},
     {title: '定时任务', index: 'cron'},
+    {title: '最后一次运行', render: 'last_status'},
     {
       title: '操作',
       buttons: [
@@ -42,7 +44,7 @@ export class TaskListComponent implements OnInit {
           type: 'modal',
           modal: {
             component: TaskEditComponent,
-            size: 500,
+            size: 800,
             params: () => ({type: '编辑'}),
           },
           click: (_record) => this.getData(),
@@ -81,8 +83,12 @@ export class TaskListComponent implements OnInit {
       );
   }
 
+  formatTime(t) {
+    return format(new Date(t), 'yyyy-MM-dd  HH:mm:ss');
+  }
+
   create() {
-    this.modalHelper.create(TaskEditComponent, {type: '创建'}, {size: 600}).subscribe(() => {
+    this.modalHelper.create(TaskEditComponent, {type: '创建'}, {size: 800}).subscribe(() => {
       this.getData();
     });
   }

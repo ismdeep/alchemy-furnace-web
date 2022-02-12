@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "node --no-deprecation ./node_modules/@angular/cli/bin/ng build --prod",
-    "serve": "node --no-deprecation ./node_modules/@angular/cli/bin/ng serve -o --host 127.0.0.1 --port 4200"
+    "start": "node --no-deprecation ./node_modules/@angular/cli/bin/ng serve -o --host 127.0.0.1 --port 4200"
   },
   "private": true,
   "dependencies": {

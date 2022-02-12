@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
+import {SFComponent, SFSchema, SFTextareaWidgetSchema, SFUISchema} from '@delon/form';
 import {_HttpClient} from '@delon/theme';
 import {collect} from 'collect.js';
 import {NzMessageService} from 'ng-zorro-antd/message';
@@ -17,7 +17,14 @@ export class TaskEditComponent implements OnInit {
     properties: {
       name: {type: 'string', title: '任务名称'},
       cron: {type: 'string', title: '定时任务'},
-      bash_content: {type: 'string', title: '脚本'},
+      bash_content: {
+        type: 'string',
+        title: 'Bash 脚本',
+        ui: {
+          widget: 'textarea',
+          autosize: { minRows: 2, maxRows: 4 },
+        } as SFTextareaWidgetSchema
+      },
     },
     required: ['name', 'cron', 'bash_content'],
   };
@@ -43,6 +50,7 @@ export class TaskEditComponent implements OnInit {
   }
 
   save(value: any) {
+    console.log(value)
     this.http.post(`/api/v1/tasks`, value).subscribe(() => {
       this.msgSrv.success('创建成功');
       this.modal.close(true);
@@ -50,12 +58,10 @@ export class TaskEditComponent implements OnInit {
   }
 
   update(value) {
-    this.http
-      .put(`/api/v1/tasks/${this.task_id}`, this.i)
-      .subscribe(() => {
-        this.msgSrv.success('保存成功');
-        this.modal.close(true);
-      });
+    this.http.put(`/api/v1/tasks/${this.task_id}`, value).subscribe(() => {
+      this.msgSrv.success('保存成功');
+      this.modal.close(true);
+    });
   }
 
   close() {

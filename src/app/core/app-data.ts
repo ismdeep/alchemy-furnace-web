@@ -23,16 +23,6 @@ export const AppData = {
           "text": "任务中心",
           "icon": "anticon-appstore",
           "link": "/tasks"
-        },
-        {
-          "text": "管理中心",
-          "icon": "anticon-control",
-          "children": [
-            {
-              "text": "系统配置",
-              "link": "/operation/system-settings"
-            }
-          ]
         }
       ]
     }
