@@ -9,7 +9,7 @@ help:
 
 .PHONY: install
 install:
-	yarn --registry=http://registry-npm.sndu.cn/ install
+	yarn install
 
 .PHONY: serve
 serve:
@@ -22,15 +22,3 @@ load-local-config:
 .PHONY: load-dev-config
 load-dev-config:
 	@cp -v $(CURDIR)/.data/proxy.dev.conf.json $(CURDIR)/proxy.conf.json
-
-# -------- docker stages >>>> --------
-.PHONY: docker
-docker:
-	docker buildx build \
-		--platform linux/amd64 \
- 		-t ismdeep/alchemy-furnace-web:latest .
-
-.PHONY: docker-release
-docker-release:
-	@echo $(DOCKET_HUB):$(DOCKER_TAG)
-# -------- docker stages <<<< --------
