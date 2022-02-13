@@ -97,7 +97,7 @@ export class DefaultInterceptor implements HttpInterceptor {
               } else {
                 window.localStorage.clear();
                 this.tokenService.clear();
-                window.location.href = '/login';
+                window.location.href = '/sign-in';
               }
               break;
             case 1:

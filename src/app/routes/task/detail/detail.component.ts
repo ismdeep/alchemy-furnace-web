@@ -6,6 +6,7 @@ import {ModalHelper, _HttpClient} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
 import format from 'date-fns/format';
+import * as moment from "moment";
 
 @Component({
   selector: 'task-detail',
@@ -20,7 +21,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     public message: NzMessageService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-    private router: ActivatedRoute,
+    private activatedRouter: ActivatedRoute,
+    private router: Router,
     private modalHelper: ModalHelper,
   ) {
   }
@@ -29,7 +31,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   intervalInstance = null
 
   ngOnInit() {
-    this.id = this.router.snapshot.params['id']
+    this.id = this.activatedRouter.snapshot.params['id']
     this.loadData()
     this.loadRunList()
     this.intervalInstance = setInterval(() => {
@@ -52,7 +54,30 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
         return format(new Date(item.created_at), 'yyyy-MM-dd  HH:mm:ss');
       },
     },
-    {title: '耗时', index: 'time_elapse'},
+    {
+      title: '耗时',
+      index: 'time_elapse_second',
+      format: (item) => {
+        let s = item.time_elapse_second
+        if (s < 60) {
+          return `${s} 秒`
+        }
+
+        s = (s / 60).toFixed(1)
+        if (s < 60) {
+          return `${s} 分钟`
+        }
+
+        s = (s / 60).toFixed(1)
+        if (s < 24) {
+          return `${s} 小时`
+        }
+
+        s = (s / 24).toFixed(1)
+        return `${s} 天`
+      }
+    },
+    {title: '操作', render: 'ops'}
   ];
 
   task = null;
@@ -75,4 +100,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       this.message.success("success")
     })
   }
+
+  gotoLog(e) {
+    this.router.navigate([`/tasks/${this.id}/runs/${e.id}`]).then()
+  }
+
 }
