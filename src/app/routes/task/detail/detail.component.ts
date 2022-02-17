@@ -1,12 +1,11 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {STColumn, STComponent, STPage} from '@delon/abc/st';
+import {STColumn, STComponent} from '@delon/abc/st';
 import {ModalHelper, _HttpClient} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
-import {tap} from 'rxjs/operators';
 import format from 'date-fns/format';
-import * as moment from "moment";
+import {TriggerEditComponent} from "./edit/edit.component";
 
 @Component({
   selector: 'task-detail',
@@ -33,6 +32,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.id = this.activatedRouter.snapshot.params['id']
     this.loadData()
+    this.loadTriggerList()
     this.loadRunList()
     this.intervalInstance = setInterval(() => {
       this.loadRunList()
@@ -48,6 +48,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   @ViewChild('st', {static: false}) st: STComponent;
   columns: STColumn[] = [
     {title: '状态', render: 'exit_code'},
+    {title: '触发器', index: 'trigger_name'},
     {
       title: '开始时间', index: 'created_at',
       format: (item) => {
@@ -81,7 +82,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   ];
 
   task = null;
-  run_list = [];
+
 
   loadData() {
     this.http.get(`/api/v1/tasks/${this.id}`).subscribe((res) => {
@@ -89,14 +90,25 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     })
   }
 
+  trigger_list = [];
+
+  loadTriggerList() {
+    this.http.get(`/api/v1/tasks/${this.id}/triggers`).subscribe((res) => {
+      this.trigger_list = res.data
+    })
+  }
+
+  run_list = [];
+
   loadRunList() {
     this.http.get(`/api/v1/tasks/${this.id}/runs`).subscribe((res) => {
       this.run_list = res.data.list
     })
   }
 
-  run() {
-    this.http.post(`/api/v1/tasks/${this.id}/runs`).subscribe((res) => {
+  runTrigger(e) {
+    console.log(e)
+    this.http.post(`/api/v1/tasks/${this.id}/triggers/${e.id}/runs`).subscribe(() => {
       this.message.success("success")
     })
   }
@@ -105,4 +117,29 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     this.router.navigate([`/tasks/${this.id}/runs/${e.id}`]).then()
   }
 
+  addTrigger() {
+    this.modalHelper.createStatic(TriggerEditComponent, {
+      task_id: this.id,
+      trigger_id: 0
+    }, {size: 800}).subscribe(() => {
+      this.loadTriggerList()
+    });
+  }
+
+  editTrigger(e) {
+    this.modalHelper.createStatic(TriggerEditComponent, {
+      task_id: this.id,
+      trigger_id: e.id,
+      record: e
+    }, {size: 800}).subscribe(() => {
+      this.loadTriggerList()
+    })
+  }
+
+  deleteTrigger(e) {
+    console.log(e)
+    this.http.delete(`/api/v1/tasks/${this.id}/triggers/${e.id}`).subscribe(() => {
+      this.loadTriggerList()
+    })
+  }
 }

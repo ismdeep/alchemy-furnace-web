@@ -13,11 +13,11 @@ import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 
 // #region third libs
 
-const THIRDMODULES = [];
+const THIRD_PARTY_MODULES = [];
 
 // #endregion
 
-// #region your componets & directives
+// #region your components & directives
 import { AppSearchComponent } from './components/search/search.component';
 
 const COMPONENTS = [AppSearchComponent];
@@ -37,7 +37,7 @@ const DIRECTIVES = [];
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
-    ...THIRDMODULES,
+    ...THIRD_PARTY_MODULES,
   ],
   declarations: [
     // your components
@@ -57,7 +57,7 @@ const DIRECTIVES = [];
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
-    ...THIRDMODULES,
+    ...THIRD_PARTY_MODULES,
     // your components
     ...COMPONENTS,
     ...DIRECTIVES,

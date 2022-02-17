@@ -5,62 +5,66 @@ import {NzMessageService} from 'ng-zorro-antd/message';
 import {NzModalRef} from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'task-edit',
+  selector: 'trigger-edit',
   templateUrl: './edit.component.html',
 })
-export class TaskEditComponent implements OnInit {
+export class TriggerEditComponent implements OnInit {
   record: any = {};
   i: any;
   @ViewChild('sf') sf: SFComponent;
   schema: SFSchema = {
     properties: {
-      name: {type: 'string', title: '任务名称'},
-      bash_content: {
+      name: {type: 'string', title: '触发器名称'},
+      cron: {type: 'string', title: '定时器'},
+      environment: {
         type: 'string',
-        title: 'Bash 脚本',
+        title: '环境变量',
         ui: {
           widget: 'textarea',
-          autosize: { minRows: 2, maxRows: 4 },
+          autosize: {minRows: 2, maxRows: 4},
         } as SFTextareaWidgetSchema
       },
     },
-    required: ['name', 'cron', 'bash_content'],
+    required: ['name', 'cron', 'environment'],
   };
-
-  type: any;
 
   ui: SFUISchema = {
     '*': {},
   };
 
   task_id: any;
+  trigger_id: any;
 
   constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {
   }
 
   ngOnInit(): void {
-    this.task_id = this.record.id;
+    console.log(this.task_id)
     this.i = [this.record].map((e) => ({
       name: e.name,
       cron: e.cron,
-      bash_content: e.bash,
+      environment: e.environment,
     }))[0];
   }
 
+
+  saving = false
+
   save(value: any) {
-    console.log(value)
-    this.http.post(`/api/v1/tasks`, value).subscribe(() => {
-      this.msgSrv.success('创建成功');
+    this.saving = true
+    let client = this.http.post(`/api/v1/tasks/${this.task_id}/triggers`, value)
+    if (this.trigger_id != 0) {
+      client = this.http.put(`/api/v1/tasks/${this.task_id}/triggers/${this.trigger_id}`, value)
+    }
+    client.subscribe(() => {
+      this.msgSrv.success('保存成功');
       this.modal.close(true);
+      this.saving = false
+    }, () => {
+      this.saving = false
     });
   }
 
-  update(value) {
-    this.http.put(`/api/v1/tasks/${this.task_id}`, value).subscribe(() => {
-      this.msgSrv.success('保存成功');
-      this.modal.close(true);
-    });
-  }
 
   close() {
     this.modal.destroy();

@@ -1,6 +1,6 @@
 // tslint:disable: no-duplicate-imports
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -37,7 +37,7 @@ export function I18nHttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json');
 }
 
-const I18NSERVICE_MODULES = [
+const I18N_SERVICE_MODULES = [
   TranslateModule.forRoot({
     loader: {
       provide: TranslateLoader,
@@ -47,7 +47,7 @@ const I18NSERVICE_MODULES = [
   }),
 ];
 
-const I18NSERVICE_PROVIDES = [{ provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false }];
+const I18N_SERVICE_PROVIDES = [{ provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false }];
 
 // #region
 
@@ -71,7 +71,7 @@ import { StartupService } from '@core';
 export function StartupServiceFactory(startupService: StartupService) {
   return () => startupService.load();
 }
-const APPINIT_PROVIDES = [
+const APP_INIT_PROVIDES = [
   StartupService,
   {
     provide: APP_INITIALIZER,
@@ -87,7 +87,7 @@ import { CoreModule } from './core/core.module';
 import { GlobalConfigModule } from './global-config.module';
 import { LayoutModule } from './layout/layout.module';
 import { RoutesModule } from './routes/routes.module';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from '@shared';
 import { STWidgetModule } from './shared/st-widget/st-widget.module';
 
 import { MonacoEditorModule } from 'ngx-monaco-editor';
@@ -105,11 +105,11 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     LayoutModule,
     RoutesModule,
     STWidgetModule,
-    ...I18NSERVICE_MODULES,
+    ...I18N_SERVICE_MODULES,
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES,
   ],
-  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18NSERVICE_PROVIDES, ...APPINIT_PROVIDES],
+  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18N_SERVICE_PROVIDES, ...APP_INIT_PROVIDES],
   bootstrap: [AppComponent],
 })
 export class AppModule {

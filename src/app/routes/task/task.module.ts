@@ -7,6 +7,7 @@ import {TaskRoutingModule} from './task-routing.module';
 import {NzNoAnimationModule, NzTreeModule} from "ng-zorro-antd";
 import {TaskDetailComponent} from "./detail/detail.component";
 import {RunDetailComponent} from "./run_detail/detail.component";
+import {TriggerEditComponent} from "./detail/edit/edit.component";
 
 const COMPONENTS = [
   TaskListComponent,
@@ -16,6 +17,7 @@ const COMPONENTS = [
 
 const COMPONENTS_NO_ROUTE = [
   TaskEditComponent,
+  TriggerEditComponent,
 ];
 
 @NgModule({

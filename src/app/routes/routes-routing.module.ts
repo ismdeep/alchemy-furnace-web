@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LayoutDefaultComponent} from '../layout/default/default.component';
 import {LayoutFullScreenComponent} from '../layout/fullscreen/fullscreen.component';
-import {ChartGuard} from '../shared/auth/chart.guard';
 import {LoginGuard} from '../shared/auth/login.guard';
 import {CallbackComponent} from './callback/callback.component';
 

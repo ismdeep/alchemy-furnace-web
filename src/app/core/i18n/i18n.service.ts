@@ -28,7 +28,7 @@ interface LangData {
 }
 
 const DEFAULT = 'zh-CN';
-const LANGS: { [key: string]: LangData } = {
+const LANGUAGES: { [key: string]: LangData } = {
   'zh-CN': {
     text: '简体中文',
     ng: ngZh,
@@ -60,8 +60,8 @@ export class I18NService implements AlainI18NService {
   private _default = DEFAULT;
   private change$ = new BehaviorSubject<string | null>(null);
 
-  private _langs = Object.keys(LANGS).map((code) => {
-    const item = LANGS[code];
+  private _languages = Object.keys(LANGUAGES).map((code) => {
+    const item = LANGUAGES[code];
     return { code, text: item.text, abbr: item.abbr };
   });
 
@@ -72,11 +72,11 @@ export class I18NService implements AlainI18NService {
     private translate: TranslateService,
   ) {
     // `@ngx-translate/core` 预先知道支持哪些语言
-    const lans = this._langs.map((item) => item.code);
-    translate.addLangs(lans);
+    const languages = this._languages.map((item) => item.code);
+    translate.addLangs(languages);
 
     const defaultLan = this.getDefaultLang();
-    if (lans.includes(defaultLan)) {
+    if (languages.includes(defaultLan)) {
       this._default = defaultLan;
     }
 
@@ -91,7 +91,7 @@ export class I18NService implements AlainI18NService {
   }
 
   private updateLangData(lang: string) {
-    const item = LANGS[lang];
+    const item = LANGUAGES[lang];
     registerLocaleData(item.ng);
     this.nzI18nService.setLocale(item.zorro);
     this.nzI18nService.setDateLocale(item.date);
@@ -112,7 +112,7 @@ export class I18NService implements AlainI18NService {
   }
   /** 获取语言列表 */
   getLangs() {
-    return this._langs;
+    return this._languages;
   }
   /** 翻译 */
   fanyi(key: string, interpolateParams?: {}) {

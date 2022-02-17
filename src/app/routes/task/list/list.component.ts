@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
-import {STColumn, STComponent, STPage} from '@delon/abc/st';
+import {STColumn, STComponent} from '@delon/abc/st';
 import {ModalHelper, _HttpClient} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
@@ -28,7 +28,6 @@ export class TaskListComponent implements OnInit {
   @ViewChild('st', {static: false}) st: STComponent;
   columns: STColumn[] = [
     {title: '任务名称', index: 'name'},
-    {title: '定时任务', index: 'cron'},
     {title: '最后一次运行', render: 'last_status'},
     {
       title: '操作',
@@ -41,7 +40,7 @@ export class TaskListComponent implements OnInit {
         },
         {
           text: '编辑',
-          type: 'modal',
+          type: 'static',
           modal: {
             component: TaskEditComponent,
             size: 800,
@@ -70,6 +69,7 @@ export class TaskListComponent implements OnInit {
   }
 
   tasks;
+
   getData() {
     this.loading = true;
     this.http.get(`/api/v1/tasks`).pipe(tap(() => (this.loading = false)))
@@ -88,7 +88,7 @@ export class TaskListComponent implements OnInit {
   }
 
   create() {
-    this.modalHelper.create(TaskEditComponent, {type: '创建'}, {size: 800}).subscribe(() => {
+    this.modalHelper.createStatic(TaskEditComponent, {type: '创建'}, {size: 800}).subscribe(() => {
       this.getData();
     });
   }
