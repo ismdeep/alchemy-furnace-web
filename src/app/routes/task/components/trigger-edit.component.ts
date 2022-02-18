@@ -6,7 +6,7 @@ import {NzModalRef} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'trigger-edit',
-  templateUrl: './edit.component.html',
+  templateUrl: './trigger-edit.component.html',
 })
 export class TriggerEditComponent implements OnInit {
   record: any = {};
@@ -25,7 +25,7 @@ export class TriggerEditComponent implements OnInit {
         } as SFTextareaWidgetSchema
       },
     },
-    required: ['name', 'cron', 'environment'],
+    required: ['name'],
   };
 
   ui: SFUISchema = {

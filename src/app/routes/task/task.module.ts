@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '@shared';
 import {MonacoEditorModule} from 'ngx-monaco-editor';
-import {TaskListComponent} from "./list/list.component";
-import {TaskEditComponent} from './list/edit/edit.component';
+import {TaskListComponent} from "./pages/task-list.component";
+import {TaskEditComponent} from './components/task-edit.component';
 import {TaskRoutingModule} from './task-routing.module';
 import {NzNoAnimationModule, NzTreeModule} from "ng-zorro-antd";
-import {TaskDetailComponent} from "./detail/detail.component";
-import {RunDetailComponent} from "./run_detail/detail.component";
-import {TriggerEditComponent} from "./detail/edit/edit.component";
+import {TaskDetailComponent} from "./pages/task-detail.component";
+import {RunDetailComponent} from "./pages/run-detail.component";
+import {TriggerEditComponent} from "./components/trigger-edit.component";
 
 const COMPONENTS = [
   TaskListComponent,

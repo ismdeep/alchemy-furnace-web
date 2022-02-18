@@ -7,3 +7,4 @@ RUN set -e; \
 
 FROM nginx:latest
 COPY --from=builder /src/dist/ /usr/share/nginx/html/
+COPY ./.data/nginx/default.conf /etc/nginx/templates/default.conf.template

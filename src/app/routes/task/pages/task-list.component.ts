@@ -2,15 +2,15 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {STColumn, STComponent} from '@delon/abc/st';
-import {ModalHelper, _HttpClient} from '@delon/theme';
+import {ModalHelper, _HttpClient, DrawerHelper} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
-import {TaskEditComponent} from './edit/edit.component';
+import {TaskEditComponent} from "../components/task-edit.component";
 import format from 'date-fns/format';
 
 @Component({
   selector: 'tasks',
-  templateUrl: './list.component.html',
+  templateUrl: './task-list.component.html',
 })
 export class TaskListComponent implements OnInit {
   constructor(
@@ -20,6 +20,7 @@ export class TaskListComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private modalHelper: ModalHelper,
+    private drawerHelper: DrawerHelper,
   ) {
   }
 
@@ -40,11 +41,11 @@ export class TaskListComponent implements OnInit {
         },
         {
           text: '编辑',
-          type: 'static',
-          modal: {
+          type: 'drawer',
+          drawer: {
+            title: '编辑',
             component: TaskEditComponent,
-            size: 800,
-            params: () => ({type: '编辑'}),
+            size: document.body.clientWidth * 0.618,
           },
           click: (_record) => this.getData(),
         },
@@ -63,8 +64,9 @@ export class TaskListComponent implements OnInit {
     },
   ];
 
-
+  drawerSize = 600
   ngOnInit() {
+    this.drawerSize = document.body.clientWidth * 0.618
     this.getData();
   }
 
@@ -88,7 +90,7 @@ export class TaskListComponent implements OnInit {
   }
 
   create() {
-    this.modalHelper.createStatic(TaskEditComponent, {type: '创建'}, {size: 800}).subscribe(() => {
+    this.drawerHelper.static('创建', TaskEditComponent, {}, {size: this.drawerSize}).subscribe(() => {
       this.getData();
     });
   }

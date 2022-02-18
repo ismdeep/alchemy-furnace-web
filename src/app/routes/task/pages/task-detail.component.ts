@@ -2,18 +2,20 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {STColumn, STComponent} from '@delon/abc/st';
-import {ModalHelper, _HttpClient} from '@delon/theme';
+import {ModalHelper, _HttpClient, DrawerHelper} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import format from 'date-fns/format';
-import {TriggerEditComponent} from "./edit/edit.component";
+import {TriggerEditComponent} from "../components/trigger-edit.component";
+import {TaskEditComponent} from "../components/task-edit.component";
 
 @Component({
   selector: 'task-detail',
-  templateUrl: './detail.component.html',
+  templateUrl: './task-detail.component.html',
 })
 export class TaskDetailComponent implements OnInit, OnDestroy {
-  private id: string;
 
+  // params
+  private id: string;
 
   constructor(
     private http: _HttpClient,
@@ -23,6 +25,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     private activatedRouter: ActivatedRoute,
     private router: Router,
     private modalHelper: ModalHelper,
+    private drawerHelper: DrawerHelper,
   ) {
   }
 
@@ -83,6 +86,11 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
 
   task = null;
 
+  editTask() {
+    this.drawerHelper.static('编辑', TaskEditComponent, {record: this.task}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+      this.loadData()
+    });
+  }
 
   loadData() {
     this.http.get(`/api/v1/tasks/${this.id}`).subscribe((res) => {

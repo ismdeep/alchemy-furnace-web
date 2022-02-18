@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TaskListComponent} from "./list/list.component";
-import {TaskDetailComponent} from "./detail/detail.component";
-import {RunDetailComponent} from "./run_detail/detail.component";
+import {TaskListComponent} from "./pages/task-list.component";
+import {TaskDetailComponent} from "./pages/task-detail.component";
+import {RunDetailComponent} from "./pages/run-detail.component";
 
 const routes: Routes = [
   {path: '', component: TaskListComponent},

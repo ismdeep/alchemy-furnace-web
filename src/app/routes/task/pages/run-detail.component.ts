@@ -7,12 +7,14 @@ import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
 import format from 'date-fns/format';
 import * as moment from "moment";
-import {webSocket} from 'rxjs/webSocket';
+import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
+import {PlatformLocation} from "@angular/common";
+import {Subject} from "rxjs";
 
 
 @Component({
   selector: 'run-detail',
-  templateUrl: './detail.component.html',
+  templateUrl: './run-detail.component.html',
 })
 export class RunDetailComponent implements OnInit, OnDestroy {
   private id: string; // Task ID
@@ -21,6 +23,7 @@ export class RunDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: _HttpClient,
+    public location: PlatformLocation,
     public message: NzMessageService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
@@ -41,20 +44,46 @@ export class RunDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-  logContent=''
+  getWebSocketUrlBase() {
+    let url = this.location.href;
+    if (url.indexOf("https://") == 0) {
+      let s = url.substr(8, url.length)
+      return `wss://${s.split('/')[0]}`
+    }
+    if (url.indexOf("http://") == 0) {
+      let s = url.substr(7, url.length)
+      return `ws://${s.split('/')[0]}`
+    }
+    return ''
+  }
+
+  logContent = ''
+
+  running = true;
   loadData() {
     this.http.get(`/api/v1/tasks/${this.id}/runs/${this.run_id}`).subscribe((res) => {
       console.log(res)
     })
 
+    let wsBase = this.getWebSocketUrlBase()
+    if (wsBase == '') {
+      this.message.error('无法访问日志')
+      return
+    }
 
+    const closeEvent = new Subject();
+    closeEvent.subscribe(() => {
+      console.log('closed')
+      this.running = false
+    })
+
+    this.running = true;
     webSocket({
-      url: `ws://127.0.0.1:8000/api/v1/tasks/${this.id}/runs/${this.run_id}/log`,
+      url: `${wsBase}/api/v1/tasks/${this.id}/runs/${this.run_id}/log`,
       deserializer: (msg) => msg,
+      closeObserver: closeEvent
     }).subscribe((msg) => {
-      console.log(msg)
       this.logContent = this.logContent + msg.data
     })
   }
-
 }

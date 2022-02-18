@@ -1,22 +1,17 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { SharedModule } from '@shared';
-// single pages
-import { CallbackComponent } from './callback/callback.component';
-// dashboard pages
-import { UserLockComponent } from './passport/lock/lock.component';
-// passport pages
-import { UserLoginComponent } from './passport/login/login.component';
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
-import { UserRegisterComponent } from './passport/register/register.component';
-import { RouteRoutingModule } from './routes-routing.module';
+import {SharedModule} from '@shared';
+import {CallbackComponent} from './callback/callback.component';
+import {UserLockComponent} from './passport/lock/lock.component';
+import {UserLoginComponent} from './passport/login/login.component';
+import {UserRegisterResultComponent} from './passport/register-result/register-result.component';
+import {UserRegisterComponent} from './passport/register/register.component';
+import {RouteRoutingModule} from './routes-routing.module';
 
 const COMPONENTS = [
-  // passport pages
   UserLoginComponent,
   UserRegisterComponent,
   UserRegisterResultComponent,
-  // single pages
   CallbackComponent,
   UserLockComponent,
 ];
@@ -27,4 +22,5 @@ const COMPONENTS_NO_ROUTE = [];
   declarations: [...COMPONENTS, ...COMPONENTS_NO_ROUTE],
   entryComponents: COMPONENTS_NO_ROUTE,
 })
-export class RoutesModule {}
+export class RoutesModule {
+}

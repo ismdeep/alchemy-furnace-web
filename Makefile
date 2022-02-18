@@ -22,3 +22,12 @@ load-local-config:
 .PHONY: load-dev-config
 load-dev-config:
 	@cp -v $(CURDIR)/.data/proxy.dev.conf.json $(CURDIR)/proxy.conf.json
+
+.PHONY: docker
+docker-dist:
+	docker buildx build \
+		--platform linux/amd64 \
+		--pull \
+		--push \
+		-f Dockerfile.dist \
+		-t hub.deepin.com/ljiang/alchemy-furnace-web:latest .
