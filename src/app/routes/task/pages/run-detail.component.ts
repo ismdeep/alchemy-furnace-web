@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {STColumn, STComponent, STPage} from '@delon/abc/st';
-import {ModalHelper, _HttpClient} from '@delon/theme';
+import {ModalHelper, _HttpClient, TitleService} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
 import format from 'date-fns/format';
@@ -29,6 +29,7 @@ export class RunDetailComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private activatedRouter: ActivatedRoute,
     private modalHelper: ModalHelper,
+    public title: TitleService,
   ) {
   }
 
@@ -36,6 +37,7 @@ export class RunDetailComponent implements OnInit, OnDestroy {
   intervalInstance = null
 
   ngOnInit() {
+    this.title.setTitle('Run Detail - Alchemy Furnace')
     this.id = this.activatedRouter.snapshot.params['id']
     this.run_id = this.activatedRouter.snapshot.params['run_id']
     this.loadData()

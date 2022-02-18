@@ -23,6 +23,11 @@ export const AppData = {
           "text": "任务中心",
           "icon": "anticon-appstore",
           "link": "/tasks"
+        },
+        {
+          "text": "配置中心",
+          "icon": "anticon-appstore",
+          "link": "/setting"
         }
       ]
     }

@@ -1,0 +1,53 @@
+<form nz-form [formGroup]="nodeEditForm" (ngSubmit)="submitForm()" [nzLayout]="'vertical'">
+  <nz-form-item>
+    <nz-form-label nzRequired>名称</nz-form-label>
+    <nz-form-control nzErrorTip="名称不能为空">
+      <nz-input-group>
+        <input type="text" nz-input formControlName="name" placeholder="请输入名称"/>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>主机名</nz-form-label>
+    <nz-form-control nzErrorTip="主机名不能为空">
+      <nz-input-group>
+        <input type="text" nz-input formControlName="host" placeholder="请输入主机名或IP. e.g. 192.168.1.100"/>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>主机端口</nz-form-label>
+    <nz-form-control nzErrorTip="端口不能为空">
+      <nz-input-group>
+        <input type="number" nz-input formControlName="port" placeholder="请输入端口"/>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label nzRequired>用户名</nz-form-label>
+    <nz-form-control nzErrorTip="用户名不能为空">
+      <nz-input-group>
+        <input type="text" nz-input formControlName="username" placeholder="请输入用户名"/>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>SSH 连接私钥</nz-form-label>
+    <nz-form-control>
+      <nz-input-group>
+        <ngx-monaco-editor contenteditable="false" class="editor" style="height: 60vh"
+                           [options]="editorOptions" formControlName="ssh_key">
+        </ngx-monaco-editor>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<div class="drawer-footer">
+  <button nz-button [nzType]="'default'" (click)="close()">取消</button>
+  <button nz-button [nzType]="'primary'" [disabled]="!nodeEditForm.valid" (click)="submitForm()">保存</button>
+</div>

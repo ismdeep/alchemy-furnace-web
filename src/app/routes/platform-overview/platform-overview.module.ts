@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '@shared';
 import {PlatformOverviewRoutingModule} from './platform-overview-routing.module';
-import {PlatformOverviewIndexComponent} from './index/index.component';
+import {PlatformOverviewIndexComponent} from './pages/platform-overview-index.component';
 import {NgxEchartsModule} from 'ngx-echarts';
 
 const COMPONENTS = [PlatformOverviewIndexComponent];

@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {FormBuilder} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {STColumn, STComponent} from '@delon/abc/st';
-import {ModalHelper, _HttpClient, DrawerHelper} from '@delon/theme';
+import {ModalHelper, _HttpClient, DrawerHelper, TitleService} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import format from 'date-fns/format';
 import {TriggerEditComponent} from "../components/trigger-edit.component";
@@ -26,6 +26,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     private router: Router,
     private modalHelper: ModalHelper,
     private drawerHelper: DrawerHelper,
+    public title: TitleService,
   ) {
   }
 
@@ -34,6 +35,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.id = this.activatedRouter.snapshot.params['id']
+    this.title.setTitle(`Task - Alchemy Furnace`)
     this.loadData()
     this.loadTriggerList()
     this.loadRunList()
@@ -95,6 +97,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   loadData() {
     this.http.get(`/api/v1/tasks/${this.id}`).subscribe((res) => {
       this.task = res.data
+      this.title.setTitle(`${this.task.name} - Task - Alchemy Furnace`)
     })
   }
 

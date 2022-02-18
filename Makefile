@@ -20,8 +20,8 @@ load-local-config:
 	@cp -v $(CURDIR)/.data/proxy.local.conf.json $(CURDIR)/proxy.conf.json
 
 .PHONY: load-dev-config
-load-dev-config:
-	@cp -v $(CURDIR)/.data/proxy.dev.conf.json $(CURDIR)/proxy.conf.json
+load-release-config:
+	@cp -v $(CURDIR)/.data/proxy.release.conf.json $(CURDIR)/proxy.conf.json
 
 .PHONY: docker
 docker-dist:

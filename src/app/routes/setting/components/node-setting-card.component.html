@@ -1,0 +1,16 @@
+<nz-card nzTitle="主机接入" [nzExtra]="opsTpl">
+  <ng-template #opsTpl>
+    <i nz-icon class="text-blue-light point" nzType="plus" nzTheme="outline" (click)="add()"></i>
+  </ng-template>
+  <div nz-row [nzGutter]="8">
+    <div *ngFor="let node of nodes" nz-col [nzSpan]="8">
+      <nz-card [nzTitle]="node.name" [nzExtra]="itemTpl">
+        <ng-template #itemTpl>
+          <i nz-icon class="text-blue-light point mr-md" nzType="edit" nzTheme="outline" (click)="edit(node)"></i>
+          <i nz-icon class="text-blue-light point" nzType="delete" nzTheme="outline" [nz-popconfirm]="'是否删除？'" (nzOnConfirm)="delete(node)"></i>
+        </ng-template>
+        <p>ssh {{node.username}}@{{node.host}} -p {{node.port}}</p>
+      </nz-card>
+    </div>
+  </div>
+</nz-card>

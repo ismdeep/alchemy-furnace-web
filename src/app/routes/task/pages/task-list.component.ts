@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 import {STColumn, STComponent} from '@delon/abc/st';
-import {ModalHelper, _HttpClient, DrawerHelper} from '@delon/theme';
+import {ModalHelper, _HttpClient, DrawerHelper, TitleService} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
 import {TaskEditComponent} from "../components/task-edit.component";
@@ -21,6 +21,7 @@ export class TaskListComponent implements OnInit {
     private router: Router,
     private modalHelper: ModalHelper,
     private drawerHelper: DrawerHelper,
+    public title: TitleService,
   ) {
   }
 
@@ -64,14 +65,12 @@ export class TaskListComponent implements OnInit {
     },
   ];
 
-  drawerSize = 600
   ngOnInit() {
-    this.drawerSize = document.body.clientWidth * 0.618
+    this.title.setTitle('Tasks - Alchemy Furnace')
     this.getData();
   }
 
   tasks;
-
   getData() {
     this.loading = true;
     this.http.get(`/api/v1/tasks`).pipe(tap(() => (this.loading = false)))
@@ -90,7 +89,7 @@ export class TaskListComponent implements OnInit {
   }
 
   create() {
-    this.drawerHelper.static('创建', TaskEditComponent, {}, {size: this.drawerSize}).subscribe(() => {
+    this.drawerHelper.static('创建', TaskEditComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.getData();
     });
   }

@@ -49,10 +49,6 @@ export class HeaderComponent {
   }
 
   go(link: string, index?: number) {
-    if (link === '/document/documentCenter') {
-      window.open('/docs')
-      return
-    }
     if (index != undefined) {
       this.router.navigate([link || this.menu[index].children[0].link]).then(() => {
       });

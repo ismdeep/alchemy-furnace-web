@@ -49,9 +49,6 @@ export class DefaultInterceptor implements HttpInterceptor {
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) {
-    this.store.subject$.pipe(debounceTime(1000)).subscribe((res: any) => {
-      this.msg.error(res.body.msg);
-    });
   }
 
   private get notification(): NzNotificationService {
@@ -101,10 +98,6 @@ export class DefaultInterceptor implements HttpInterceptor {
               }
               break;
             case 1:
-              if (!ev.url.includes('portstatus') && !ev.url.includes('getports')) {
-                this.store.subject$.next(ev);
-              }
-
               // 终止抛出数据 不会触发订阅
               return throwError(ev);
             case 0:
