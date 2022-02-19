@@ -6,6 +6,8 @@ import {NzNoAnimationModule, NzTreeModule} from "ng-zorro-antd";
 import {SettingComponent} from "./pages/setting.component";
 import {NodeSettingCardComponent} from "./components/node-setting-card.component";
 import {NodeEditFormComponent} from "./components/node-edit-form.component";
+import {TokenSettingCardComponent} from "./components/token-setting-card.component";
+import {TokenEditFormComponent} from "./components/token-edit-form.component";
 
 const COMPONENTS = [
   SettingComponent
@@ -13,7 +15,9 @@ const COMPONENTS = [
 
 const COMPONENTS_NO_ROUTE = [
   NodeSettingCardComponent,
+  TokenSettingCardComponent,
   NodeEditFormComponent,
+  TokenEditFormComponent,
 ];
 
 @NgModule({

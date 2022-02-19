@@ -14,18 +14,24 @@ export class NodeSettingCardComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnDestroy(): void {
-  }
+
 
   ngOnInit(): void {
     this.loadData()
+  }
+
+  ngOnDestroy(): void {
   }
 
   // data
   nodes = []
   loadData() {
     this.http.get(`/api/v1/nodes`).subscribe((res) => {
-      this.nodes = res.data
+      if (res.data) {
+        this.nodes = res.data
+      } else {
+        this.nodes = []
+      }
     })
   }
 

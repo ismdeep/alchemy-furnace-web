@@ -2,7 +2,7 @@
   <ng-template #opsTpl>
     <i nz-icon class="text-blue-light point" nzType="plus" nzTheme="outline" (click)="add()"></i>
   </ng-template>
-  <div nz-row [nzGutter]="8">
+  <div nz-row [nzGutter]="8" *ngIf="nodes.length > 0">
     <div *ngFor="let node of nodes" nz-col [nzSpan]="8">
       <nz-card [nzTitle]="node.name" [nzExtra]="itemTpl">
         <ng-template #itemTpl>
@@ -13,4 +13,5 @@
       </nz-card>
     </div>
   </div>
+  <nz-empty *ngIf="nodes.length == 0"></nz-empty>
 </nz-card>
