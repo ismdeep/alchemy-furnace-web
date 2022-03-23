@@ -34,7 +34,9 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   intervalInstance = null
 
   ngOnInit() {
-    this.id = this.activatedRouter.snapshot.params['id']
+    if (!this.id) {
+      this.id = this.activatedRouter.snapshot.params['id']
+    }
     this.title.setTitle(`Task - Alchemy Furnace`)
     this.loadData()
     this.loadTriggerList()
@@ -125,7 +127,7 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
   }
 
   gotoLog(e) {
-    this.router.navigate([`/tasks/${this.id}/runs/${e.id}`]).then()
+    window.open(`/tasks/${this.id}/runs/${e.id}`)
   }
 
   addTrigger() {

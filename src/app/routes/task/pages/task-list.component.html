@@ -2,17 +2,67 @@
   <button (click)='create()' nz-button nzType='primary'>创建任务</button>
 </page-header>
 
-<nz-card>
-  <st #st [data]='tasks' [columns]='columns'>
-    <ng-template st-row="last_status" let-index="index" let-item>
-      <span *ngIf="item.last_run!=null">
-        <nz-tag nzNoAnimation *ngIf="item.last_run.status == 0" [nzColor]="'yellow'">Pending</nz-tag>
-        <nz-tag nzNoAnimation *ngIf="item.last_run.status == 1" [nzColor]="'yellow'">Running</nz-tag>
-        <nz-tag nzNoAnimation *ngIf="item.last_run.status == 2 && item.last_run.exit_code == 0" [nzColor]="'green'">Success</nz-tag>
-        <nz-tag nzNoAnimation *ngIf="item.last_run.status == 2 && item.last_run.exit_code != 0" [nzColor]="'red'">Failed</nz-tag>
-        <nz-tag nzNoAnimation *ngIf="item.last_run.status == 3" [nzColor]="'gray'">Abort</nz-tag>
-        {{formatTime(item.last_run.end_time)}}
+<div nz-row [nzGutter]="8">
+  <div nz-col [nzSpan]="8" *ngFor="let task of tasks">
+    <nz-card [nzTitle]="task.name" [nzExtra]="tpl">
+      <ng-template #tpl>
+        <span class="mr-lg" *ngIf="task.last_run" [nz-popover]="formatTime(task.last_run.end_time)">
+          <nz-tag nzNoAnimation *ngIf="task.last_run.status == 0" [nzColor]="'yellow'">
+            Pending
+          </nz-tag>
+          <nz-tag nzNoAnimation *ngIf="task.last_run.status == 1" [nzColor]="'yellow'">
+            Running
+          </nz-tag>
+          <nz-tag nzNoAnimation *ngIf="task.last_run.status == 2 && task.last_run.exit_code == 0" [nzColor]="'green'">
+            Success
+          </nz-tag>
+          <nz-tag nzNoAnimation *ngIf="task.last_run.status == 2 && task.last_run.exit_code != 0" [nzColor]="'red'">
+            Failed
+          </nz-tag>
+          <nz-tag nzNoAnimation *ngIf="task.last_run.status == 3" [nzColor]="'gray'">
+            Abort
+          </nz-tag>
+        </span>
+        <a class="mr-sm" (click)="addTrigger(task)">+ Trigger</a>
+        <i nz-icon class="text-blue-light point ml-md"
+           nzType="info"
+           nzTheme="outline"
+           (click)="showTaskDetail(task)"></i>
+        <i nz-icon class="text-blue-light point ml-md"
+           nzType="edit"
+           nzTheme="outline"
+           (click)="editTask(task)"></i>
+        <i nz-icon class="text-blue-light point ml-md"
+           nzType="delete"
+           nzTheme="outline"
+           nz-popconfirm="确定删除?"
+           (nzOnConfirm)="deleteTask(task)"></i>
+      </ng-template>
+      <span *ngIf="task && task.last_run && task.last_run.end_time">
+        <div nz-row [nzGutter]="8">
+          <div nz-col [nzSpan]="12" *ngFor="let trigger of task.triggers">
+            <nz-card [nzTitle]="trigger.name" [nzExtra]="triggerTpl">
+              <ng-template #triggerTpl>
+                <i nz-icon class="text-blue-light point ml-md"
+                   nzType="right"
+                   nzTheme="outline"
+                   [nz-popconfirm]="'确定执行？'"
+                   (nzOnConfirm)="runTrigger(task, trigger)"></i>
+                <i nz-icon class="text-blue-light point ml-md"
+                   nzType="edit"
+                   nzTheme="outline"
+                   (click)="editTrigger(task, trigger)"></i>
+                <i nz-icon class="text-blue-light point ml-md"
+                   nzType="delete"
+                   nzTheme="outline"
+                   [nz-popconfirm]="'确定删除？'"
+                   (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
+              </ng-template>
+              <p>定时任务： {{trigger.cron}}</p>
+            </nz-card>
+          </div>
+        </div>
       </span>
-    </ng-template>
-  </st>
-</nz-card>
+    </nz-card>
+  </div>
+</div>

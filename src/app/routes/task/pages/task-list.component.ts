@@ -7,6 +7,8 @@ import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
 import {TaskEditComponent} from "../components/task-edit.component";
 import format from 'date-fns/format';
+import {TriggerEditComponent} from "../components/trigger-edit.component";
+import {TaskDetailComponent} from "./task-detail.component";
 
 @Component({
   selector: 'tasks',
@@ -41,16 +43,6 @@ export class TaskListComponent implements OnInit {
           }
         },
         {
-          text: '编辑',
-          type: 'drawer',
-          drawer: {
-            title: '编辑',
-            component: TaskEditComponent,
-            size: document.body.clientWidth * 0.618,
-          },
-          click: (_record) => this.getData(),
-        },
-        {
           text: '删除',
           pop: '确定要删除吗',
           click: (item: any) => {
@@ -71,6 +63,7 @@ export class TaskListComponent implements OnInit {
   }
 
   tasks;
+
   getData() {
     this.loading = true;
     this.http.get(`/api/v1/tasks`).pipe(tap(() => (this.loading = false)))
@@ -89,8 +82,62 @@ export class TaskListComponent implements OnInit {
   }
 
   create() {
-    this.drawerHelper.static('创建', TaskEditComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+    this.drawerHelper.create('创建', TaskEditComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.getData();
     });
+  }
+
+  editTask(item) {
+    this.drawerHelper.create('编辑', TaskEditComponent, {record: item}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+      this.getData();
+    });
+  }
+
+  deleteTask(item) {
+    this.http.delete(`/api/v1/tasks/${item.id}`)
+      .subscribe(() => {
+        this.message.success('操作成功');
+        this.getData();
+      });
+  }
+
+  showTaskDetail(item) {
+    console.log(item)
+    this.modalHelper.create(TaskDetailComponent, {id: item.id}).subscribe(() => {
+    })
+  }
+
+  editTrigger(taskInfo, item) {
+    console.log(taskInfo)
+    console.log(item)
+    this.modalHelper.createStatic(TriggerEditComponent, {
+      task_id: taskInfo.id,
+      trigger_id: item.id,
+      record: item
+    }, {size: 800}).subscribe(() => {
+      this.getData()
+    })
+  }
+
+  addTrigger(task) {
+    this.modalHelper.createStatic(TriggerEditComponent, {
+      task_id: task.id,
+      trigger_id: 0
+    }, {size: 800}).subscribe(() => {
+      this.getData()
+    });
+  }
+
+  deleteTrigger(taskInfo, item) {
+    this.http.delete(`/api/v1/tasks/${taskInfo.id}/triggers/${item.id}`).subscribe(() => {
+      this.getData()
+    })
+  }
+
+  runTrigger(taskInfo, e) {
+    console.log(e)
+    this.http.post(`/api/v1/tasks/${taskInfo.id}/triggers/${e.id}/runs`).subscribe(() => {
+      this.message.success("success")
+    })
   }
 }
