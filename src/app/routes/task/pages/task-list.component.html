@@ -38,31 +38,29 @@
            nz-popconfirm="确定删除?"
            (nzOnConfirm)="deleteTask(task)"></i>
       </ng-template>
-      <span *ngIf="task && task.last_run && task.last_run.end_time">
-        <div nz-row [nzGutter]="8">
-          <div nz-col [nzSpan]="12" *ngFor="let trigger of task.triggers">
-            <nz-card [nzTitle]="trigger.name" [nzExtra]="triggerTpl">
-              <ng-template #triggerTpl>
-                <i nz-icon class="text-blue-light point ml-md"
-                   nzType="right"
-                   nzTheme="outline"
-                   [nz-popconfirm]="'确定执行？'"
-                   (nzOnConfirm)="runTrigger(task, trigger)"></i>
-                <i nz-icon class="text-blue-light point ml-md"
-                   nzType="edit"
-                   nzTheme="outline"
-                   (click)="editTrigger(task, trigger)"></i>
-                <i nz-icon class="text-blue-light point ml-md"
-                   nzType="delete"
-                   nzTheme="outline"
-                   [nz-popconfirm]="'确定删除？'"
-                   (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
-              </ng-template>
-              <p>定时任务： {{trigger.cron}}</p>
-            </nz-card>
-          </div>
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="12" *ngFor="let trigger of task.triggers">
+          <nz-card [nzTitle]="trigger.name" [nzExtra]="triggerTpl">
+            <ng-template #triggerTpl>
+              <i nz-icon class="text-blue-light point ml-md"
+                 nzType="right"
+                 nzTheme="outline"
+                 [nz-popconfirm]="'确定执行？'"
+                 (nzOnConfirm)="runTrigger(task, trigger)"></i>
+              <i nz-icon class="text-blue-light point ml-md"
+                 nzType="edit"
+                 nzTheme="outline"
+                 (click)="editTrigger(task, trigger)"></i>
+              <i nz-icon class="text-blue-light point ml-md"
+                 nzType="delete"
+                 nzTheme="outline"
+                 [nz-popconfirm]="'确定删除？'"
+                 (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
+            </ng-template>
+            <p>定时任务： {{trigger.cron}}</p>
+          </nz-card>
         </div>
-      </span>
+      </div>
     </nz-card>
   </div>
 </div>
