@@ -2,8 +2,8 @@
   <button (click)='create()' nz-button nzType='primary'>创建任务</button>
 </page-header>
 
-<div nz-row [nzGutter]="8">
-  <div nz-col [nzSpan]="8" *ngFor="let task of tasks">
+<div class="masonry">
+  <div class="item" *ngFor="let task of tasks">
     <nz-card [nzTitle]="task.name" [nzExtra]="tpl">
       <ng-template #tpl>
         <span class="mr-lg" *ngIf="task.last_run" [nz-popover]="formatTime(task.last_run.end_time)">

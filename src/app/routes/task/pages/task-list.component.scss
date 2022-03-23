@@ -1,0 +1,13 @@
+.masonry {
+  width: 100%;
+  margin: 10px auto;
+  columns: 3;
+  column-gap: 20px;
+
+  .item {
+    width: 100%;
+    break-inside: avoid;
+    margin-bottom: 10px;
+  }
+}
+

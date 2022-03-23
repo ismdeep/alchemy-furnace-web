@@ -13,6 +13,7 @@ import {TaskDetailComponent} from "./task-detail.component";
 @Component({
   selector: 'tasks',
   templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnInit {
   constructor(
