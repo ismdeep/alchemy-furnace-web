@@ -1,6 +1,7 @@
-<page-header>
-  <button (click)='create()' nz-button nzType='primary'>创建任务</button>
-</page-header>
+<br>
+<div style="width: 5rem;height: 5rem;position: fixed;bottom: 0;right: 0;z-index: 0;">
+  <i nz-icon class="text-blue-light point" nzType="plus-circle" nzTheme="outline" (click)="create()"></i>
+</div>
 
 <div class="masonry">
   <div class="item" *ngFor="let task of tasks">
@@ -57,7 +58,7 @@
                  [nz-popconfirm]="'确定删除？'"
                  (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
             </ng-template>
-            <p>定时任务： {{trigger.cron}}</p>
+            <p *ngIf="trigger.cron != ''" >定时任务： {{trigger.cron}}</p>
           </nz-card>
         </div>
       </div>

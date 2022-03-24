@@ -11,3 +11,16 @@
   }
 }
 
+@media screen and (max-width: 1440px) {
+  .masonry {
+    columns: 2;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .masonry {
+    columns: 1;
+  }
+}
+
+/* 512 960 1152 1440 1920 */
