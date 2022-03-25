@@ -1,4 +1,4 @@
-<st #st [data]="run_list" [columns]="columns">
+<st *ngIf="run_list && run_list.length > 0" #st [data]="run_list" [columns]="columns">
   <!-- 状态显示 -->
   <ng-template st-row="exit_code" let-item let-index="index" let-column="column">
     <nz-tag nzNoAnimation *ngIf="item.status == 0" [nzColor]="'yellow'">Pending</nz-tag>
