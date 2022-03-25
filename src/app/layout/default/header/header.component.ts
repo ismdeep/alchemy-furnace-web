@@ -39,7 +39,7 @@ export class HeaderComponent {
   searchToggleStatus: boolean;
   menu = [];
 
-  constructor(public cdr: ChangeDetectorRef, public router: Router, public settings: SettingsService, private httpClient: _HttpClient) {
+  constructor(public cdr: ChangeDetectorRef, public router: Router, public settings: SettingsService) {
     this.settings.setLayout('collapsed', false);
   }
 

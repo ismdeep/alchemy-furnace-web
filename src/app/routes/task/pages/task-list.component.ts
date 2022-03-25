@@ -29,42 +29,12 @@ export class TaskListComponent implements OnInit {
   }
 
   loading = false;
-
-  @ViewChild('st', {static: false}) st: STComponent;
-  columns: STColumn[] = [
-    {title: '任务名称', index: 'name'},
-    {title: '最后一次运行', render: 'last_status'},
-    {
-      title: '操作',
-      buttons: [
-        {
-          text: '控制台',
-          click: (item: any) => {
-            this.router.navigate([`/tasks/${item.id}`]).then()
-          }
-        },
-        {
-          text: '删除',
-          pop: '确定要删除吗',
-          click: (item: any) => {
-            this.http.delete(`/api/v1/tasks/${item.id}`)
-              .subscribe(() => {
-                this.message.success('操作成功');
-                this.getData();
-              });
-          },
-        },
-      ],
-    },
-  ];
-
   ngOnInit() {
     this.title.setTitle('Tasks - Alchemy Furnace')
     this.getData();
   }
 
-  tasks;
-
+  tasks = [];
   getData() {
     this.loading = true;
     this.http.get(`/api/v1/tasks`).pipe(tap(() => (this.loading = false)))
@@ -83,13 +53,13 @@ export class TaskListComponent implements OnInit {
   }
 
   create() {
-    this.drawerHelper.create('创建', TaskEditComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+    this.drawerHelper.create('Create', TaskEditComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.getData();
     });
   }
 
   editTask(item) {
-    this.drawerHelper.create('编辑', TaskEditComponent, {record: item}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+    this.drawerHelper.create('Edit', TaskEditComponent, {record: item}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.getData();
     });
   }
@@ -97,7 +67,7 @@ export class TaskListComponent implements OnInit {
   deleteTask(item) {
     this.http.delete(`/api/v1/tasks/${item.id}`)
       .subscribe(() => {
-        this.message.success('操作成功');
+        this.message.success('Deleted');
         this.getData();
       });
   }
@@ -138,7 +108,7 @@ export class TaskListComponent implements OnInit {
   runTrigger(taskInfo, e) {
     console.log(e)
     this.http.post(`/api/v1/tasks/${taskInfo.id}/triggers/${e.id}/runs`).subscribe(() => {
-      this.message.success("success")
+      this.message.success("Success")
     })
   }
 }

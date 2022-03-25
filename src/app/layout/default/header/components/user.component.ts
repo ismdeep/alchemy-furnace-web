@@ -19,11 +19,11 @@ import { SettingsService, _HttpClient } from '@delon/theme';
     </div>
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <div nz-menu class="width-sm">
-        <div nz-menu-item>
-          <i nz-icon nzType="setting" class="mr-sm"></i> 首选项
+        <div nz-menu-item (click)="gotoPreference()">
+          <i nz-icon nzType="setting" class="mr-sm"></i> Preference
         </div>
         <div nz-menu-item (click)="logout()">
-          <i nz-icon nzType="logout" class="mr-sm"></i> 退出
+          <i nz-icon nzType="logout" class="mr-sm"></i> Sign out
         </div>
       </div>
     </nz-dropdown-menu>
@@ -51,5 +51,9 @@ export class HeaderUserComponent {
     sessionStorage.clear();
     localStorage.clear();
     window.location.reload();
+  }
+
+  gotoPreference() {
+    this.router.navigate([`/setting`]).then()
   }
 }

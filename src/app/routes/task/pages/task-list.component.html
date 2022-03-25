@@ -26,17 +26,13 @@
         </span>
         <a class="mr-sm" (click)="addTrigger(task)">+ Trigger</a>
         <i nz-icon class="text-blue-light point ml-md"
-           nzType="info"
-           nzTheme="outline"
-           (click)="showTaskDetail(task)"></i>
-        <i nz-icon class="text-blue-light point ml-md"
            nzType="edit"
            nzTheme="outline"
            (click)="editTask(task)"></i>
         <i nz-icon class="text-blue-light point ml-md"
            nzType="delete"
            nzTheme="outline"
-           nz-popconfirm="确定删除?"
+           nz-popconfirm="Are you sure to delete?"
            (nzOnConfirm)="deleteTask(task)"></i>
       </ng-template>
       <div nz-row [nzGutter]="8">
@@ -46,7 +42,7 @@
               <i nz-icon class="text-blue-light point ml-md"
                  nzType="right"
                  nzTheme="outline"
-                 [nz-popconfirm]="'确定执行？'"
+                 [nz-popconfirm]="'Are you sure to run?'"
                  (nzOnConfirm)="runTrigger(task, trigger)"></i>
               <i nz-icon class="text-blue-light point ml-md"
                  nzType="edit"
@@ -55,13 +51,14 @@
               <i nz-icon class="text-blue-light point ml-md"
                  nzType="delete"
                  nzTheme="outline"
-                 [nz-popconfirm]="'确定删除？'"
+                 [nz-popconfirm]="'Are you sure to delete?'"
                  (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
             </ng-template>
-            <p *ngIf="trigger.cron != ''" >定时任务： {{trigger.cron}}</p>
+            <p *ngIf="trigger.cron != ''" >Cron: {{trigger.cron}}</p>
           </nz-card>
         </div>
       </div>
+      <task-detail TaskID="{{task.id}}" ></task-detail>
     </nz-card>
   </div>
 </div>

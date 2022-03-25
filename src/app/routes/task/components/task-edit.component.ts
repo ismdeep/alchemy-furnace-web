@@ -1,8 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {SFComponent, SFSchema, SFTextareaWidgetSchema, SFUISchema} from '@delon/form';
+import {Component, OnInit} from '@angular/core';
 import {_HttpClient} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd/message';
-import {NzModalRef} from 'ng-zorro-antd/modal';
 import {NzDrawerRef} from 'ng-zorro-antd';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
@@ -57,7 +55,7 @@ export class TaskEditComponent implements OnInit {
       client = this.http.put(`/api/v1/tasks/${this.record.id}`, this.taskEditForm.value)
     }
     client.subscribe(() => {
-      this.msgSrv.success('保存成功')
+      this.msgSrv.success('Saved')
       this.ref.close(true)
     })
   }

@@ -14,8 +14,6 @@ export class NodeSettingCardComponent implements OnInit, OnDestroy {
   ) {
   }
 
-
-
   ngOnInit(): void {
     this.loadData()
   }
@@ -36,13 +34,13 @@ export class NodeSettingCardComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    this.drawerHelper.static('创建', NodeEditFormComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+    this.drawerHelper.create('Create', NodeEditFormComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.loadData()
     });
   }
 
   edit(node) {
-    this.drawerHelper.static('编辑', NodeEditFormComponent, {record: node}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+    this.drawerHelper.create('Edit', NodeEditFormComponent, {record: node}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.loadData()
     })
   }

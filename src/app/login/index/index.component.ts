@@ -1,9 +1,8 @@
 import {Component, OnInit, ViewChild, Inject} from '@angular/core';
 import {NzMessageService} from 'ng-zorro-antd';
-import {SFComponent, SFSchema, SFUISchema} from '@delon/form';
+import {SFComponent, SFSchema} from '@delon/form';
 import {_HttpClient} from '@delon/theme';
-import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
-import {tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 import {DA_SERVICE_TOKEN, ITokenService} from '@delon/auth';
 
 @Component({
@@ -26,22 +25,22 @@ export class IndexComponent implements OnInit {
     properties: {
       username: {
         type: 'string',
-        title: '用户名',
+        title: 'User',
         ui: {
-          placeholder: '请输入用户名',
+          placeholder: 'Please input username',
           errors: {
-            required: '请输入用户名',
+            required: 'Please input username',
           },
         },
       },
       password: {
         type: 'string',
-        title: '密码',
+        title: 'Pass',
         ui: {
           type: 'password',
-          placeholder: '请输入密码',
+          placeholder: 'Please input password',
           errors: {
-            required: '请输入密码',
+            required: 'Please input password',
           },
         },
       },
@@ -53,23 +52,21 @@ export class IndexComponent implements OnInit {
   }
 
   isLogging = false
-  login_text = '登 录'
+  login_text = 'Login'
 
   submit(e) {
     this.isLogging = true;
-    this.login_text = '登录中'
     this.http.post(`/api/v1/sign-in`, e).subscribe((res) => {
       setTimeout(() => {
         this.isLogging = false
-        this.login_text = '登录成功'
-        this.message.success('登录成功！');
+        this.login_text = 'Login success'
+        this.message.success('Login successfully');
         this.tokenService.set({token: res.data});
         window.location.href = '/'
       }, 1000)
     }, () => {
       setTimeout(() => {
         this.isLogging = false
-        this.login_text = '登 录'
       }, 1000)
     });
   }

@@ -1,54 +1,15 @@
-<br>
-<!--<nz-card *ngIf="task != null" [nzLoading]="task == null" [nzTitle]="task.name" [nzExtra]="tpl">-->
-<!--  <ng-template #tpl>-->
-<!--    <button nz-button nzType="primary" (click)="editTask()">编辑</button>-->
-<!--  </ng-template>-->
-<!--  任务名称： {{task.name}}-->
-<!--</nz-card>-->
+<st #st [data]="run_list" [columns]="columns">
+  <!-- 状态显示 -->
+  <ng-template st-row="exit_code" let-item let-index="index" let-column="column">
+    <nz-tag nzNoAnimation *ngIf="item.status == 0" [nzColor]="'yellow'">Pending</nz-tag>
+    <nz-tag nzNoAnimation *ngIf="item.status == 1" [nzColor]="'yellow'">Running</nz-tag>
+    <nz-tag nzNoAnimation *ngIf="item.status == 2 && item.exit_code == 0" [nzColor]="'green'">Success</nz-tag>
+    <nz-tag nzNoAnimation *ngIf="item.status == 2 && item.exit_code != 0" [nzColor]="'red'">Failed</nz-tag>
+    <nz-tag nzNoAnimation *ngIf="item.status == 3" [nzColor]="'gray'">Abort</nz-tag>
+  </ng-template>
 
-<!--<nz-card *ngIf="task != null" [nzLoading]="task == null" nzTitle="触发器" [nzExtra]="triggerOpsTpl">-->
-<!--  <ng-template #triggerOpsTpl>-->
-<!--    <a (click)="addTrigger()"><i nz-icon nzType='plus'></i></a>-->
-<!--  </ng-template>-->
-<!--  <nz-table #triggerTable [nzData]="trigger_list" nzTableLayout="fixed" [nzHideOnSinglePage]="true">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--      <th>名称</th>-->
-<!--      <th>定时任务</th>-->
-<!--      <th>操作</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr *ngFor="let item of triggerTable.data">-->
-<!--      <td><a class="mr-md"-->
-<!--             [nz-popconfirm]="'确定执行？'"-->
-<!--             (nzOnConfirm)="runTrigger(item)"><i nz-icon nzType='right'></i></a> {{item.name}}</td>-->
-<!--      <td>{{item.cron}}</td>-->
-<!--      <td>-->
-<!--        <a class="mr-md" (click)="editTrigger(item)"><i nz-icon nzType='edit'></i></a>-->
-<!--        <a class="mr-md"-->
-<!--           [nz-popconfirm]="'确定删除？'"-->
-<!--           (nzOnConfirm)="deleteTrigger(item)"><i nz-icon nzType='delete'></i></a>-->
-<!--      </td>-->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--  </nz-table>-->
-<!--</nz-card>-->
-
-<nz-card>
-  <st #st [data]="run_list" [columns]="columns">
-    <!-- 状态显示 -->
-    <ng-template st-row="exit_code" let-item let-index="index" let-column="column">
-      <nz-tag nzNoAnimation *ngIf="item.status == 0" [nzColor]="'yellow'">Pending</nz-tag>
-      <nz-tag nzNoAnimation *ngIf="item.status == 1" [nzColor]="'yellow'">Running</nz-tag>
-      <nz-tag nzNoAnimation *ngIf="item.status == 2 && item.exit_code == 0" [nzColor]="'green'">Success</nz-tag>
-      <nz-tag nzNoAnimation *ngIf="item.status == 2 && item.exit_code != 0" [nzColor]="'red'">Failed</nz-tag>
-      <nz-tag nzNoAnimation *ngIf="item.status == 3" [nzColor]="'gray'">Abort</nz-tag>
-    </ng-template>
-
-    <!-- 操作 -->
-    <ng-template st-row="ops" let-item let-index="index" let-column="column">
-      <a href="javascript:" (click)="gotoLog(item)">日志</a>
-    </ng-template>
-  </st>
-</nz-card>
+  <!-- 操作 -->
+  <ng-template st-row="ops" let-item let-index="index" let-column="column">
+    <a href="javascript:" (click)="showLog(item)">Log</a>
+  </ng-template>
+</st>

@@ -37,7 +37,6 @@ const routes: Routes = [
   {path: 'callback/:type', component: CallbackComponent},
   {path: '**', redirectTo: 'exception/404'},
   {path: 'sign-in', loadChildren: () => import('../login/login.module').then((m) => m.LoginModule)},
-  {path: 'sign-up', loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule)},
 ];
 
 @NgModule({

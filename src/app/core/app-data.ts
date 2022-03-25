@@ -10,24 +10,19 @@ export const AppData = {
   },
   "menu": [
     {
-      "text": "主导航",
+      "text": "HOME",
       "group": true,
       "hideInBreadcrumb": true,
       "children": [
         {
-          "text": "平台概况",
-          "icon": "anticon-bar-chart",
+          "text": "Overview",
+          "icon": "",
           "link": "/"
         },
         {
-          "text": "任务中心",
-          "icon": "anticon-appstore",
+          "text": "Task Center",
+          "icon": "",
           "link": "/tasks"
-        },
-        {
-          "text": "配置中心",
-          "icon": "anticon-appstore",
-          "link": "/setting"
         }
       ]
     }

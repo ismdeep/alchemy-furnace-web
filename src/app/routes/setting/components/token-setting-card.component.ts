@@ -39,13 +39,13 @@ export class TokenSettingCardComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    this.drawerHelper.static('生成新 Token', TokenEditFormComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+    this.drawerHelper.create('Generate new token', TokenEditFormComponent, {}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.loadData()
     });
   }
 
   edit(token) {
-    this.drawerHelper.static('编辑 Token', TokenEditFormComponent, {record: token}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
+    this.drawerHelper.create('Edit token', TokenEditFormComponent, {record: token}, {size: document.body.clientWidth * 0.618}).subscribe(() => {
       this.loadData()
     })
   }

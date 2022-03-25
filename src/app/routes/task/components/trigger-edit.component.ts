@@ -14,11 +14,11 @@ export class TriggerEditComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
   schema: SFSchema = {
     properties: {
-      name: {type: 'string', title: '触发器名称'},
-      cron: {type: 'string', title: '定时器'},
+      name: {type: 'string', title: 'Trigger name'},
+      cron: {type: 'string', title: 'Cron'},
       environment: {
         type: 'string',
-        title: '环境变量',
+        title: 'Environment',
         ui: {
           widget: 'textarea',
           autosize: {minRows: 2, maxRows: 4},
@@ -57,7 +57,7 @@ export class TriggerEditComponent implements OnInit {
       client = this.http.put(`/api/v1/tasks/${this.task_id}/triggers/${this.trigger_id}`, value)
     }
     client.subscribe(() => {
-      this.msgSrv.success('保存成功');
+      this.msgSrv.success('Saved');
       this.modal.close(true);
       this.saving = false
     }, () => {
