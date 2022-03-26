@@ -54,12 +54,31 @@
                  [nz-popconfirm]="'Are you sure to delete?'"
                  (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
             </ng-template>
+            <span class="mr-lg" *ngIf="trigger.last_run" [nz-popover]="formatTime(trigger.last_run.end_time)">
+              <nz-tag nzNoAnimation *ngIf="trigger.last_run.status == 0" [nzColor]="'yellow'">
+                Pending
+              </nz-tag>
+              <nz-tag nzNoAnimation *ngIf="trigger.last_run.status == 1" [nzColor]="'yellow'">
+                Running
+              </nz-tag><nz-tag nzNoAnimation *ngIf="trigger.last_run.status == 2 && trigger.last_run.exit_code == 0" [nzColor]="'green'">
+              Success
+            </nz-tag>
+              <nz-tag nzNoAnimation *ngIf="trigger.last_run.status == 2 && trigger.last_run.exit_code != 0" [nzColor]="'red'">
+                Failed
+              </nz-tag>
+              <nz-tag nzNoAnimation *ngIf="trigger.last_run.status == 3" [nzColor]="'gray'">
+                Abort
+              </nz-tag>
+            </span>
+            <span class="mr-lg" *ngIf="!trigger.last_run">
+              <nz-tag nzNoAnimation [nzColor]="'gray'">No record</nz-tag>
+            </span>
             <p *ngIf="trigger.cron != ''">Cron: {{trigger.cron}}</p>
             <pre *ngIf="trigger.environment != ''">{{trigger.environment}}</pre>
           </nz-card>
         </div>
       </div>
-      <task-detail TaskID="{{task.id}}" ></task-detail>
+      <task-detail TaskID="{{task.id}}"></task-detail>
     </nz-card>
   </div>
 </div>
