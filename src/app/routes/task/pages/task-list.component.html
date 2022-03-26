@@ -54,7 +54,8 @@
                  [nz-popconfirm]="'Are you sure to delete?'"
                  (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
             </ng-template>
-            <p *ngIf="trigger.cron != ''" >Cron: {{trigger.cron}}</p>
+            <p *ngIf="trigger.cron != ''">Cron: {{trigger.cron}}</p>
+            <pre *ngIf="trigger.environment != ''">{{trigger.environment}}</pre>
           </nz-card>
         </div>
       </div>
