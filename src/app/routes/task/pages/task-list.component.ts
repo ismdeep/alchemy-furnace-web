@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, OnDestroy} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
-import {STColumn, STComponent} from '@delon/abc/st';
 import {ModalHelper, _HttpClient, DrawerHelper, TitleService} from '@delon/theme';
 import {NzMessageService} from 'ng-zorro-antd';
 import {tap} from 'rxjs/operators';
@@ -9,13 +8,15 @@ import {TaskEditComponent} from "../components/task-edit.component";
 import format from 'date-fns/format';
 import {TriggerEditComponent} from "../components/trigger-edit.component";
 import {TaskDetailComponent} from "./task-detail.component";
+import {RunDetailComponent} from "./run-detail.component";
+import * as moment from "moment";
 
 @Component({
   selector: 'tasks',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent implements OnInit, OnDestroy {
   constructor(
     private http: _HttpClient,
     public message: NzMessageService,
@@ -29,27 +30,35 @@ export class TaskListComponent implements OnInit {
   }
 
   loading = false;
+
   ngOnInit() {
     this.title.setTitle('Tasks - Alchemy Furnace')
     this.getData();
   }
 
+  ngOnDestroy() {
+  }
+
   tasks = [];
+
   getData() {
     this.loading = true;
-    this.http.get(`/api/v1/tasks`).pipe(tap(() => (this.loading = false)))
-      .subscribe(
-        (res) => {
-          this.tasks = res.data;
-        },
-        () => {
-          this.loading = false;
-        },
-      );
+    this.http.get(`/api/v1/tasks`).pipe(tap(() => (this.loading = false))).subscribe(
+      (res) => {
+        this.tasks = res.data;
+      },
+      () => {
+        this.loading = false;
+      },
+    );
   }
 
   formatTime(t) {
     return format(new Date(t), 'yyyy-MM-dd  HH:mm:ss');
+  }
+
+  formatFromNow(t) {
+    return moment(t).fromNow()
   }
 
   create() {
@@ -65,23 +74,19 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(item) {
-    this.http.delete(`/api/v1/tasks/${item.id}`)
-      .subscribe(() => {
-        this.message.success('Deleted');
-        this.getData();
-      });
+    this.http.delete(`/api/v1/tasks/${item.id}`).subscribe(() => {
+      this.message.success('Deleted');
+      this.getData();
+    });
   }
 
   showTaskDetail(item) {
-    console.log(item)
     this.modalHelper.create(TaskDetailComponent, {id: item.id}).subscribe(() => {
     })
   }
 
   editTrigger(taskInfo, item) {
-    console.log(taskInfo)
-    console.log(item)
-    this.modalHelper.createStatic(TriggerEditComponent, {
+    this.modalHelper.create(TriggerEditComponent, {
       task_id: taskInfo.id,
       trigger_id: item.id,
       record: item
@@ -91,7 +96,7 @@ export class TaskListComponent implements OnInit {
   }
 
   addTrigger(task) {
-    this.modalHelper.createStatic(TriggerEditComponent, {
+    this.modalHelper.create(TriggerEditComponent, {
       task_id: task.id,
       trigger_id: 0
     }, {size: 800}).subscribe(() => {
@@ -106,9 +111,13 @@ export class TaskListComponent implements OnInit {
   }
 
   runTrigger(taskInfo, e) {
-    console.log(e)
     this.http.post(`/api/v1/tasks/${taskInfo.id}/triggers/${e.id}/runs`).subscribe(() => {
       this.message.success("Success")
+    })
+  }
+
+  showLog(taskID, e) {
+    this.modalHelper.create(RunDetailComponent, {id: taskID, run_id: e.id}, {size: 'lg'}).subscribe(() => {
     })
   }
 }
