@@ -40,9 +40,8 @@
                  [nz-popconfirm]="'Are you sure to delete?'"
                  (nzOnConfirm)="deleteTrigger(task, trigger)"></i>
             </ng-template>
-            <p style="margin-top: 8px" *ngIf="trigger.cron != ''">Cron: {{trigger.cron}}</p>
-            <pre style="margin-top: 8px" *ngIf="trigger.environment != ''">{{trigger.environment}}</pre>
-
+            <p style="margin-bottom: 8px" *ngIf="trigger.cron != ''">Cron: {{trigger.cron}}</p>
+            <pre style="margin-bottom: 8px" *ngIf="trigger.environment != ''">{{trigger.environment}}</pre>
             <span class="mr-lg" *ngIf="trigger.recent_runs && trigger.recent_runs.length > 0">
               <span *ngFor="let item of trigger.recent_runs" (click)="showLog(task.id, item)">
                 <nz-tag nzNoAnimation *ngIf="item.status == 0" [nzColor]="'yellow'">{{formatFromNow(item.created_at)}}</nz-tag>
@@ -55,7 +54,6 @@
             <span class="mr-lg" *ngIf="!trigger.recent_runs || trigger.recent_runs.length <= 0">
               <nz-tag nzNoAnimation [nzColor]="'gray'">No record</nz-tag>
             </span>
-
           </nz-card>
         </div>
       </div>
